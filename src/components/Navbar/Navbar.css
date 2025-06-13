@@ -1,0 +1,44 @@
+/* General Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(255, 255, 255, 0.15); /* Light transparent background */
+  backdrop-filter: blur(12px); /* Glassmorphism effect */
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for glass effect */
+  transition: all 0.3s ease; /* Smooth transition effect */
+}
+
+/* Left section (App name and logo) */
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px; /* Adjust logo size */
+  margin-right: 10px;
+}
+
+.app-name {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Right section (Date and time) */
+.navbar-right .date {
+  font-size: 14px;
+  color: #d0d0d0;
+  font-weight: 500;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

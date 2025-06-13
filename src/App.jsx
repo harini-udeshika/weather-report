@@ -1,21 +1,24 @@
 import { useEffect, useState, useCallback } from 'react'
 import './App.css'
 import { getWeather } from './api'
-import appLogo from './assets/weather-app.png'
 import Loading from './components/Loading'
-import { SearchBar } from './components/SearchBar'
+import { SearchBar } from './components/SearchBar/SearchBar'
 import { debounce } from 'lodash';
+import Greeting from './components/Greeting/Greeting'
+import WeatherData from './components/WeatherData/WeatherData'
 
 function App() {
   const [weatherData, setWeatherData] = useState()
   const [location, setLocation] = useState('Colombo')
   const [searchInput, setSearchInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getWeather(location)
       .then((data) => {
         setWeatherData(data)
+        setLoading(false)
         console.log("Weather data for", location, ":", data)
       })
       .catch((error) => {
@@ -78,34 +81,29 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <img src={appLogo} className="logo" alt="logo" />
-      <header className="App-header">
-        <h1>Simple Weather App</h1>
-        <div>
-          <div style={{ position: 'relative', width: '100%', maxWidth: 400, margin: '0 auto' }}>
-            <SearchBar
-              searchInput={searchInput}
-              suggestions={suggestions}
-              handleSearch={handleSearch}
-              handleChange={handleChange}
-              handleSelect={handleSelect}
-            />
-          </div>
-        </div>
-        {weatherData ? (
-          <div>
-            <h2>Weather in {weatherData.location.name}</h2>
-            <p>Temperature: {weatherData.current.temp_c}°C</p>
-            <p>Condition: {weatherData.current.condition.text}</p>
-            <p>Humidity: {weatherData.current.humidity}</p>
-            <p>Wind speed: {weatherData.current.wind_kph} kph</p>
-            <p>UV index: {weatherData.current.uv}</p>
-          </div>
-        ) : (
-          <Loading />
-        )}
-      </header>
+    <div className='container'>
+      <div className='header'>
+        <Greeting />
+        <SearchBar
+          searchInput={searchInput}
+          suggestions={suggestions}
+          handleSearch={handleSearch}
+          handleChange={handleChange}
+          handleSelect={handleSelect}
+        />
+      </div>
+
+
+
+
+      {!loading ? (
+        <>
+          <WeatherData weatherData={weatherData} />
+        </>
+      ) : (
+        <Loading />
+      )}
+
     </div>
   )
 }

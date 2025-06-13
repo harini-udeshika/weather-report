@@ -1,0 +1,15 @@
+.greeting{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    
+}
+.greeting-child-1 img{
+    height: 4rem;
+    margin: 0.5rem;
+}
+.greeting-span-2{
+    font-size: 1.5rem;
+}

@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <div className="loading-container">
       <ThreeDot
-        color="#2b915d"
+        color="#c8e6e5"
         size={50}
         style={{ display: 'block', margin: '0 auto' }}
       />

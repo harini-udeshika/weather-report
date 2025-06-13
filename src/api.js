@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY;
-const googlePlacesApiKey = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
+// const googlePlacesApiKey = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
 const baseWeatherApiUrl = "http://api.weatherapi.com/v1/current.json?key=" + weatherApiKey + "&q=";
 
 export const getWeather = async (location) => {
