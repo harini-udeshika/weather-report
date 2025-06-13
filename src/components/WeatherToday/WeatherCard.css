@@ -1,0 +1,63 @@
+@import url('../../colors.css');
+
+.card{
+    width: 7rem;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--text-light);
+    border-radius: 1rem;
+    padding: 0.25rem;
+    margin: 1rem ;
+    flex-shrink: 0;
+}
+.time{
+    color: var(--color-secondary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.temp{
+    color:var(--color-primary);
+    font-weight:300;
+    font-size: 1.1rem;
+}
+.icon img{
+    height:2.5rem;
+}
+
+.rain{
+    width: 80%;
+}
+
+.rain div:nth-child(1){
+    display: flex;
+    flex-direction: row;
+    font-size: 0.7rem;
+    justify-content: space-between;
+}
+.rain span:nth-child(1){
+   color: var(--color-secondary);
+}
+.rain span:nth-child(2){
+   color: var(--color-accent-secondary);
+   font-weight: 600;
+}
+.rain-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.rain-fill {
+  height: 100%;
+  background-color:var(--color-accent-secondary);
+  width: 0%;
+  transition: width 1s ease-in-out;
+  border-radius: 4px;
+}
+

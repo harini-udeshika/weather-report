@@ -1,0 +1,44 @@
+@import url("../../colors.css");
+
+.greeting{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+justify-content: center;
+    
+}
+.greeting-child-1{
+
+ 
+}
+.greeting-child-1 img {
+ 
+  height: 4rem;
+  margin: 0 0.5rem;
+  animation: floatUpDown 2s ease-in-out infinite;
+}
+
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.greeting-span-1{
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-primary);
+}
+
+.greeting-span-2{
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--color-secondary);
+}

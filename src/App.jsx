@@ -1,28 +1,40 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import './App.css'
 import { getWeather } from './api'
-import appLogo from './assets/weather-app.png'
-import { FaMagnifyingGlass } from 'react-icons/fa6'
 import Loading from './components/Loading'
+import { SearchBar } from './components/SearchBar/SearchBar'
+import { debounce, set } from 'lodash';
+import Greeting from './components/Greeting/Greeting'
+import WeatherData from './components/WeatherData/WeatherData'
+import { ToastContainer, toast } from 'react-toastify';
+import { Bounce } from 'react-toastify'
+import WeatherToday from './components/WeatherToday/WatherToday'
 
 function App() {
   const [weatherData, setWeatherData] = useState()
   const [location, setLocation] = useState('Colombo')
   const [searchInput, setSearchInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
+  const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
     getWeather(location)
       .then((data) => {
         setWeatherData(data)
+        setLoading(false)
+        toast.info("Weather data updated successfully!");
         console.log("Weather data for", location, ":", data)
       })
       .catch((error) => {
+        setLoading(false)
         console.error("Error fetching weather data:", error)
+        toast.error(error.status + "Failed to fetch weather data. Please try again later.");
       })
   }, [])
 
-  const fetchSuggestions = (input) => {
+
+  const fetchSuggestions = useCallback(debounce((input) => {
     if (!window.google) return;
 
     const service = new window.google.maps.places.AutocompleteService();
@@ -33,13 +45,13 @@ function App() {
           setSuggestions(predictions.map(pred => ({
             description: pred.description,
             placeId: pred.place_id
-          })))
+          })));
         } else {
-          setSuggestions([])
+          setSuggestions([]);
         }
       }
     );
-  };
+  }, 300), []);
 
   const handleChange = (event) => {
     const value = event.target.value
@@ -66,68 +78,60 @@ function App() {
       getWeather(searchInput)
         .then((data) => {
           setWeatherData(data)
+          toast.info("Weather data updated successfully!");
+          setSearchInput('')
+          setSuggestions([]);
           console.log('Weather data for', searchInput, ':', data)
         })
         .catch((error) => {
           console.error('Error fetching weather data:', error)
+          toast.error("Failed to fetch weather data. Please try again later.");
         })
     }
   }
 
   return (
-    <div className="App">
-      <img src={appLogo} className="logo" alt="logo" />
-      <header className="App-header">
-        <h1>Simple Weather App</h1>
-        <div>
-          <div style={{ position: 'relative', width: '100%', maxWidth: 400, margin: '0 auto' }}>
-            <form onSubmit={handleSearch} style={{ display: 'flex' }}>
-              <input
-                type="text"
-                placeholder="Search for a city"
-                value={searchInput}
-                onChange={handleChange}
-                style={{ flex: 1, padding: '10px', borderRadius: '6px 0 0 6px', border: '1px solid #ccc' }}
-              />
-              <button
-                type="submit"
-                style={{
-                  backgroundColor: '#2b915d',
-                  border: 'none',
-                  color: 'white',
-                  padding: '10px 16px',
-                  borderRadius: '0 6px 6px 0',
-                  cursor: 'pointer'
-                }}
-              >
-                <FaMagnifyingGlass />
-              </button>
-            </form>
+    <div className='container'>
 
-            {suggestions.length > 0 && (
-              <ul className="suggestions">
-                {suggestions.map((item, index) => (
-                  <li key={index} onClick={() => handleSelect(item.description)}>
-                    {item.description}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-        {weatherData ? (
-          <div>
-            <h2>Weather in {weatherData.location.name}</h2>
-            <p>Temperature: {weatherData.current.temp_c}°C</p>
-            <p>Condition: {weatherData.current.condition.text}</p>
-            <p>Humidity: {weatherData.current.humidity}</p>
-            <p>Wind speed: {weatherData.current.wind_kph} kph</p>
-            <p>UV index: {weatherData.current.uv}</p>
-          </div>
-        ) : (
-          <Loading/>
-        )}
-      </header>
+      <div className='header'>
+        <Greeting />
+        <SearchBar
+          searchInput={searchInput}
+          suggestions={suggestions}
+          handleSearch={handleSearch}
+          handleChange={handleChange}
+          handleSelect={handleSelect}
+        />
+
+      </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        theme="dark"
+        transition={Bounce}
+      />
+
+      {!loading ? (
+        <>
+          {weatherData ? (
+
+            <>
+              <WeatherData weatherData={weatherData} />
+              <WeatherToday weatherData={weatherData}/>
+            </>
+
+          ) : (<p>Something went wrong while fetching data ...</p>)}
+        </>
+      ) : (
+        <Loading />
+      )}
+
     </div>
   )
 }

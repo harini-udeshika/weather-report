@@ -1,0 +1,23 @@
+@import url('../../colors.css');
+
+.weather-today{
+    width: 70%;
+height: 15rem;
+box-shadow:var(--box-shadow) ;
+padding: 2rem;
+border-radius: 2rem;
+}
+.heading{
+    color: var(--color-primary);
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.card-container{
+display: flex;
+flex-direction: row;
+height: 90%;
+align-items: center;
+justify-content: space-between;
+overflow-x: scroll;
+}

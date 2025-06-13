@@ -1,0 +1,19 @@
+:root {
+  /* Primary Theme Colors */
+  --color-primary: #265940;
+  --color-secondary: #758A83;
+  --color-accent: #50957E;
+  --color-accent-secondary:#9fcadf;
+
+  /* Backgrounds */
+  --background-dark: #121212;
+  --background-light: #f2f7f6;
+
+  /* Text */
+  --text-light: #ffffff;
+  --text-dark: #1e1e1e;
+
+  /* Borders & Shadows */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
