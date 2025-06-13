@@ -3,9 +3,11 @@ import './App.css'
 import { getWeather } from './api'
 import Loading from './components/Loading'
 import { SearchBar } from './components/SearchBar/SearchBar'
-import { debounce } from 'lodash';
+import { debounce, set } from 'lodash';
 import Greeting from './components/Greeting/Greeting'
 import WeatherData from './components/WeatherData/WeatherData'
+import { ToastContainer, toast } from 'react-toastify';
+import { Bounce } from 'react-toastify'
 
 function App() {
   const [weatherData, setWeatherData] = useState()
@@ -13,6 +15,7 @@ function App() {
   const [searchInput, setSearchInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
     getWeather(location)
@@ -22,9 +25,12 @@ function App() {
         console.log("Weather data for", location, ":", data)
       })
       .catch((error) => {
+        setLoading(false)
         console.error("Error fetching weather data:", error)
+        toast.error(error.status+"Failed to fetch weather data. Please try again later.");
       })
   }, [])
+
 
   const fetchSuggestions = useCallback(debounce((input) => {
     if (!window.google) return;
@@ -76,12 +82,14 @@ function App() {
         })
         .catch((error) => {
           console.error('Error fetching weather data:', error)
+          toast.error("Failed to fetch weather data. Please try again later.");
         })
     }
   }
 
   return (
     <div className='container'>
+
       <div className='header'>
         <Greeting />
         <SearchBar
@@ -91,14 +99,25 @@ function App() {
           handleChange={handleChange}
           handleSelect={handleSelect}
         />
+
       </div>
-
-
-
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
 
       {!loading ? (
         <>
-          <WeatherData weatherData={weatherData} />
+          {weatherData ? (<WeatherData weatherData={weatherData} />) : (<p>Something went wrong while fetching data ...</p>)}
         </>
       ) : (
         <Loading />
