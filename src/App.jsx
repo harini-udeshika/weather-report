@@ -22,12 +22,13 @@ function App() {
       .then((data) => {
         setWeatherData(data)
         setLoading(false)
+        toast.info("Weather data updated successfully!");
         console.log("Weather data for", location, ":", data)
       })
       .catch((error) => {
         setLoading(false)
         console.error("Error fetching weather data:", error)
-        toast.error(error.status+"Failed to fetch weather data. Please try again later.");
+        toast.error(error.status + "Failed to fetch weather data. Please try again later.");
       })
   }, [])
 
@@ -76,6 +77,7 @@ function App() {
       getWeather(searchInput)
         .then((data) => {
           setWeatherData(data)
+          toast.info("Weather data updated successfully!");
           setSearchInput('')
           setSuggestions([]);
           console.log('Weather data for', searchInput, ':', data)
@@ -102,7 +104,7 @@ function App() {
 
       </div>
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -110,7 +112,6 @@ function App() {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
         theme="dark"
         transition={Bounce}
       />
