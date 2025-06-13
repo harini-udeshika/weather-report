@@ -8,6 +8,7 @@ import Greeting from './components/Greeting/Greeting'
 import WeatherData from './components/WeatherData/WeatherData'
 import { ToastContainer, toast } from 'react-toastify';
 import { Bounce } from 'react-toastify'
+import WeatherToday from './components/WeatherToday/WatherToday'
 
 function App() {
   const [weatherData, setWeatherData] = useState()
@@ -118,7 +119,14 @@ function App() {
 
       {!loading ? (
         <>
-          {weatherData ? (<WeatherData weatherData={weatherData} />) : (<p>Something went wrong while fetching data ...</p>)}
+          {weatherData ? (
+
+            <>
+              <WeatherData weatherData={weatherData} />
+              <WeatherToday weatherData={weatherData}/>
+            </>
+
+          ) : (<p>Something went wrong while fetching data ...</p>)}
         </>
       ) : (
         <Loading />
