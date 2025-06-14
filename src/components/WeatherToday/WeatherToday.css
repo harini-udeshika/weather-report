@@ -21,3 +21,14 @@ align-items: center;
 justify-content: space-between;
 overflow-x: scroll;
 }
+
+@media (max-width: 1100px) {
+  .weather-today{
+    width: 90%;
+  }
+}
+@media (max-width: 850px) {
+  .weather-today{
+    width: 80%;
+  }
+}
