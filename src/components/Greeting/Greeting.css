@@ -8,9 +8,10 @@
 justify-content: center;
     
 }
-.greeting-child-1{
-
- 
+@media (max-width: 1310px) {
+  .greeting{
+    margin-bottom: 1rem;
+  }
 }
 .greeting-child-1 img {
  
