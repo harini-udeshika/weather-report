@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import './App.css'
-import { getWeather } from './api'
+import { getLocation, getWeather } from './api'
 import Loading from './components/Loading'
 import { SearchBar } from './components/SearchBar/SearchBar'
 import { debounce, set } from 'lodash';
@@ -12,26 +12,31 @@ import WeatherToday from './components/WeatherToday/WatherToday'
 
 function App() {
   const [weatherData, setWeatherData] = useState()
-  const [location, setLocation] = useState('Colombo')
+  const [location, setLocation] = useState('')
   const [searchInput, setSearchInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
 
 
-  useEffect(() => {
-    getWeather(location)
-      .then((data) => {
-        setWeatherData(data)
-        setLoading(false)
-        toast.info("Weather data updated successfully!");
-        console.log("Weather data for", location, ":", data)
-      })
-      .catch((error) => {
-        setLoading(false)
-        console.error("Error fetching weather data:", error)
-        toast.error(error.status + "Failed to fetch weather data. Please try again later.");
-      })
-  }, [])
+ useEffect(() => {
+  getLocation()
+    .then((data) => {
+      const loc = data.city || "Colombo";
+      return getWeather(loc); 
+    })
+    .then((data) => {
+      setWeatherData(data);
+      setLoading(false);
+      toast.info("Weather data updated successfully!");
+      console.log("Weather data:", data);
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.error("Error fetching weather data:", error);
+      toast.error("Failed to fetch weather data. Please try again later.");
+    });
+}, []);
+
 
 
   const fetchSuggestions = useCallback(debounce((input) => {
