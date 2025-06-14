@@ -35,14 +35,6 @@ const Greeting = () => {
             return;
         }
 
-        fetch('https://ipinfo.io/json')
-            .then(res => res.json())
-            .then(data => {
-                const loc = `${data.city}, ${data.country}`;
-                setLocation(loc);
-                sessionStorage.setItem('userLocation', loc);
-            })
-            .catch(() => setLocation('your area'));
     }, []);
 
     return (
