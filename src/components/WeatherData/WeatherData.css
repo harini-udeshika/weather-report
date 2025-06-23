@@ -146,13 +146,22 @@ align-items: start;
   }
 }
 @media (max-width: 650px) {
+  .rounded-box{
+    height: 27rem;
+  }
     .left{
         width: 100%;
         align-items: center;
         justify-content: center;
+        height: 12rem;
     
     }
+    .right{
+      height: 17rem;
+      justify-content: center;
+    }
   .row{
+    height: 30%;
     width: 100%;
   }
   .section{
