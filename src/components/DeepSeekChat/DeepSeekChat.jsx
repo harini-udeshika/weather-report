@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import WeatherMCP from '../../mcp/WeatherMCP';
 import { getWeather } from '../../api';
 import './DeepSeekChat.css';
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import { FaMicrophoneSlash } from 'react-icons/fa6';
+import { FaMicrophone } from 'react-icons/fa';
 function DeepSeekChat({ isOpen, onClose }) {
   const [query, setQuery] = useState('');
   const [weatherData, setWeatherData] = useState(null);
@@ -9,9 +12,39 @@ function DeepSeekChat({ isOpen, onClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  const debounceTimer = useRef(null);
+
+  useEffect(() => {
+    if (transcript) {
+      setQuery(transcript);
+    }
+  }, [transcript, setQuery]);
+
+  useEffect(() => {
+    // When user stops speaking, wait 1.5s before submitting
+    if (!listening && transcript.trim() !== "") {
+      debounceTimer.current = setTimeout(() => {
+        handleSubmit({ preventDefault: () => { } }); // simulate submit
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(debounceTimer.current);
+    };
+  }, [listening]);
+
+
   const mcp = new WeatherMCP();
 
   const handleSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     e.preventDefault();
     if (!query.trim()) return;
 
@@ -86,28 +119,53 @@ function DeepSeekChat({ isOpen, onClose }) {
   return (
     <div className="weather-dialog-overlay" onClick={onClose}>
       <div className="weather-dialog" onClick={(e) => e.stopPropagation()}>
-        <button className="dialog-close" onClick={onClose}>✖</button>
+        <button className="dialog-close" onClick={onClose}>
+          ✖
+        </button>
         <div className="weather-app">
           <h1>Weather Assistant</h1>
+
+          {!browserSupportsSpeechRecognition && (
+            <p>Your browser does not support speech recognition.</p>
+          )}
 
           <form onSubmit={handleSubmit} className="weather-search-form">
             <input
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                resetTranscript();
+              }}
               placeholder="Ask about weather in any location..."
               disabled={isLoading}
             />
-            <button type="submit" disabled={isLoading}>
+            {/* <button type="submit" disabled={isLoading}>
               {isLoading ? "Analyzing..." : "Get Weather"}
-            </button>
+            </button> */}
+            <div className="mic-tooltip-wrapper">
+              <button
+                type="button"
+                onClick={() =>
+                  SpeechRecognition.startListening({ continuous: false, language: "en-US" })
+                }
+                className={`mic-button ${listening ? 'listening' : ''}`}
+                disabled={isLoading}
+              >
+                {listening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+              </button>
+              {!listening && <span className="tooltip-text">Tap to speak</span>}
+            </div>
+
+
+
           </form>
 
           {isLoading && <div className="loading">Consulting weather experts...</div>}
 
           {error && <div className="error">⚠️ {error}</div>}
 
-          {weatherSummary && (
+          {weatherSummary && weatherData && (
             <div className="weather-summary">
               <h2>
                 Weather in {weatherData.location.name},{" "}
@@ -133,6 +191,7 @@ function DeepSeekChat({ isOpen, onClose }) {
       </div>
     </div>
   );
+
 }
 
 export default DeepSeekChat;
