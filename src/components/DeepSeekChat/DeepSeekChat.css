@@ -1,0 +1,106 @@
+@import url('../../colors.css');
+.weather-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-dialog {
+  background: var(--background-light);
+  color: var(--text-dark);
+  width: 90%;
+  max-width: 500px;
+  border-radius: 2rem;
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-secondary);
+}
+
+.weather-app h1 {
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: normal;
+}
+
+.weather-search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.weather-search-form input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.8rem;
+  font-size: 1rem;
+}
+
+.weather-search-form button {
+  background-color: var(--color-secondary);
+  color: var(--text-light);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.loading,
+.error {
+  margin-top: 1rem;
+  font-style: italic;
+  color: var(--color-secondary);
+}
+
+.weather-summary h2 {
+  margin-top: 1rem;
+  color: var(--color-accent);
+}
+
+.summary-text {
+  margin-bottom: 1rem;
+}
+
+.detailed-data h3 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.detailed-data ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detailed-data li {
+  margin-bottom: 0.4rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -9,6 +9,9 @@ import WeatherData from './components/WeatherData/WeatherData'
 import { ToastContainer, toast } from 'react-toastify';
 import { Bounce } from 'react-toastify'
 import WeatherToday from './components/WeatherToday/WatherToday'
+import DeepSeekChat from './components/DeepSeekChat/DeepSeekChat'
+import chatbot from './assets/chatbot.png'
+
 
 function App() {
   const [weatherData, setWeatherData] = useState()
@@ -16,26 +19,27 @@ function App() {
   const [searchInput, setSearchInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showDialog, setShowDialog] = useState(false);
 
 
- useEffect(() => {
-  getLocation()
-    .then((data) => {
-      const loc = data.city || "Colombo";
-      return getWeather(loc); 
-    })
-    .then((data) => {
-      setWeatherData(data);
-      setLoading(false);
-      toast.info("Weather data updated successfully!");
-      console.log("Weather data:", data);
-    })
-    .catch((error) => {
-      setLoading(false);
-      console.error("Error fetching weather data:", error);
-      toast.error("Failed to fetch weather data. Please try again later.");
-    });
-}, []);
+  useEffect(() => {
+    getLocation()
+      .then((data) => {
+        const loc = data.city || "Colombo";
+        return getWeather(loc);
+      })
+      .then((data) => {
+        setWeatherData(data);
+        setLoading(false);
+        toast.info("Weather data updated successfully!");
+        console.log("Weather data:", data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error("Error fetching weather data:", error);
+        toast.error("Failed to fetch weather data. Please try again later.");
+      });
+  }, []);
 
 
 
@@ -100,6 +104,7 @@ function App() {
 
       <div className='header'>
         <Greeting />
+
         <SearchBar
           searchInput={searchInput}
           suggestions={suggestions}
@@ -108,7 +113,12 @@ function App() {
           handleSelect={handleSelect}
         />
 
+
+
       </div>
+      <button className="chatbot-icon" onClick={() => setShowDialog(true)}>
+        <img src={chatbot} alt="" />
+      </button>
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -127,8 +137,12 @@ function App() {
           {weatherData ? (
 
             <>
+
               <WeatherData weatherData={weatherData} />
-              <WeatherToday weatherData={weatherData}/>
+              <WeatherToday weatherData={weatherData} />
+
+              <DeepSeekChat isOpen={showDialog}
+                onClose={() => setShowDialog(false)} />
             </>
 
           ) : (<p>Something went wrong while fetching data ...</p>)}
