@@ -77,27 +77,42 @@ function App() {
     setSuggestions([])
   }
 
-  const handleSearch = async (event) => {
-    if (!searchInput && suggestions.length > 0) {
-      setSearchInput(suggestions[0].description);
-    }
+  const handleSearch = async (query, event) => {
+  if (event) event.preventDefault();
 
-    event.preventDefault()
-    if (searchInput) {
-      getWeather(searchInput)
-        .then((data) => {
-          setWeatherData(data)
-          toast.info("Weather data updated successfully!");
-          setSearchInput('')
-          setSuggestions([]);
-          console.log('Weather data for', searchInput, ':', data)
-        })
-        .catch((error) => {
-          console.error('Error fetching weather data:', error)
-          toast.error("Failed to fetch weather data. Please try again later.");
-        })
-    }
-  }
+  const term = query || searchInput || (suggestions[0]?.description ?? '');
+  if (!term) return;
+
+  getWeather(term)
+    .then((data) => {
+      setWeatherData(data);
+      toast.info("Weather data updated successfully!");
+      setSearchInput('');
+      setSuggestions([]);
+      console.log('Weather data for', term, ':', data);
+    })
+    .catch((error) => {
+      console.error('Error fetching weather data:', error);
+      toast.error("Failed to fetch weather data. Please try again later.");
+    });
+};
+
+const handleSuggestionSelectAndSearch = (description) => {
+  handleSelect(description); // Update input
+  getWeather(description)
+    .then((data) => {
+      setWeatherData(data);
+      toast.info("Weather data updated successfully!");
+      setSearchInput('');
+      setSuggestions([]);
+      console.log('Weather data for', description, ':', data);
+    })
+    .catch((error) => {
+      console.error('Error fetching weather data:', error);
+      toast.error("Failed to fetch weather data. Please try again later.");
+    });
+};
+
 
   return (
     <div className='container'>
@@ -111,6 +126,7 @@ function App() {
           handleSearch={handleSearch}
           handleChange={handleChange}
           handleSelect={handleSelect}
+          handleSuggestionSelectAndSearch={handleSuggestionSelectAndSearch}
         />
 
 
