@@ -3,7 +3,7 @@ import './App.css'
 import { getLocation, getWeather } from './api'
 import Loading from './components/Loading'
 import { SearchBar } from './components/SearchBar/SearchBar'
-import { debounce} from 'lodash';
+import { debounce } from 'lodash';
 import Greeting from './components/Greeting/Greeting'
 import WeatherData from './components/WeatherData/WeatherData'
 import { ToastContainer, toast } from 'react-toastify';
@@ -42,34 +42,44 @@ function App() {
 
 
 
-  const fetchSuggestions = useCallback(debounce((input) => {
-    if (!window.google) return;
-
-    const service = new window.google.maps.places.AutocompleteService();
-    service.getPlacePredictions(
-      { input, types: ['(cities)'] },
-      (predictions, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
-          setSuggestions(predictions.map(pred => ({
-            description: pred.description,
-            placeId: pred.place_id
-          })));
-        } else {
-          setSuggestions([]);
-        }
+  const fetchSuggestions = useCallback(
+    debounce((input) => {
+      if (!input.trim()) {
+        setSuggestions([]);
+        return;
       }
-    );
-  }, 300), []);
+
+      if (!window.google) return;
+
+      const service = new window.google.maps.places.AutocompleteService();
+      service.getPlacePredictions(
+        { input, types: ['(cities)'] },
+        (predictions, status) => {
+          if (
+            status === window.google.maps.places.PlacesServiceStatus.OK &&
+            predictions
+          ) {
+            setSuggestions(
+              predictions.map((pred) => ({
+                description: pred.description,
+                placeId: pred.place_id,
+              }))
+            );
+          } else {
+            setSuggestions([]);
+          }
+        }
+      );
+    }, 300),
+    []
+  );
+
 
   const handleChange = (event) => {
-    const value = event.target.value
-    setSearchInput(value)
-    if (value) {
-      fetchSuggestions(value)
-    } else {
-      setSuggestions([])
-    }
-  }
+    const value = event.target.value;
+    setSearchInput(value);
+    fetchSuggestions(value);
+  };
 
   const handleSelect = (description) => {
     setSearchInput(description)
@@ -77,40 +87,40 @@ function App() {
   }
 
   const handleSearch = async (query, event) => {
-  if (event) event.preventDefault();
+    if (event) event.preventDefault();
 
-  const term = query || searchInput || (suggestions[0]?.description ?? '');
-  if (!term) return;
+    const term = query || searchInput || (suggestions[0]?.description ?? '');
+    if (!term) return;
 
-  getWeather(term)
-    .then((data) => {
-      setWeatherData(data);
-      toast.info("Weather data updated successfully!");
-      setSearchInput('');
-      setSuggestions([]);
-      // console.log('Weather data for', term, ':', data);
-    })
-    .catch((error) => {
-      console.error('Error fetching weather data:', error);
-      toast.error("Failed to fetch weather data. Please try again later.");
-    });
-};
+    getWeather(term)
+      .then((data) => {
+        setWeatherData(data);
+        toast.info("Weather data updated successfully!");
+        setSearchInput('');
+        setSuggestions([]);
+        // console.log('Weather data for', term, ':', data);
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        toast.error("Failed to fetch weather data. Please try again later.");
+      });
+  };
 
-const handleSuggestionSelectAndSearch = (description) => {
-  handleSelect(description); // Update input
-  getWeather(description)
-    .then((data) => {
-      setWeatherData(data);
-      toast.info("Weather data updated successfully!");
-      setSearchInput('');
-      setSuggestions([]);
-      // console.log('Weather data for', description, ':', data);
-    })
-    .catch((error) => {
-      console.error('Error fetching weather data:', error);
-      toast.error("Failed to fetch weather data. Please try again later.");
-    });
-};
+  const handleSuggestionSelectAndSearch = (description) => {
+    handleSelect(description); // Update input
+    getWeather(description)
+      .then((data) => {
+        setWeatherData(data);
+        toast.info("Weather data updated successfully!");
+        setSearchInput('');
+        setSuggestions([]);
+        // console.log('Weather data for', description, ':', data);
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        toast.error("Failed to fetch weather data. Please try again later.");
+      });
+  };
 
 
   return (

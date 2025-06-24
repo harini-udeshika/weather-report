@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import './SearchBar.css';
-import { set } from 'lodash';
 
 export function SearchBar({
   searchInput,
   suggestions,
   handleSearch,
   handleChange,
-  handleSelect,
   handleSuggestionSelectAndSearch
 }) {
   const [activeIndex, setActiveIndex] = useState(-1);
