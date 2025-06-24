@@ -19,6 +19,10 @@
   box-shadow: var(--box-shadow);
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
+  max-height: 70%;
+overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
 }
 
 .dialog-close {
@@ -179,3 +183,13 @@
   opacity: 1;
 }
 
+@media (max-width: 650px) {
+  .weather-dialog{
+    margin: 2rem;
+    max-height: 50%;
+    overflow-y: auto;
+     scroll-behavior: smooth;
+  scrollbar-width: thin;
+  }
+
+}
