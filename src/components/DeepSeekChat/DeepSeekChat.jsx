@@ -130,19 +130,7 @@ function DeepSeekChat({ isOpen, onClose }) {
           )}
 
           <form onSubmit={handleSubmit} className="weather-search-form">
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                resetTranscript();
-              }}
-              placeholder="Ask about weather in any location..."
-              disabled={isLoading}
-            />
-            {/* <button type="submit" disabled={isLoading}>
-              {isLoading ? "Analyzing..." : "Get Weather"}
-            </button> */}
+
             <div className="mic-tooltip-wrapper">
               <button
                 type="button"
@@ -157,11 +145,19 @@ function DeepSeekChat({ isOpen, onClose }) {
               {!listening && <span className="tooltip-text">Tap to speak</span>}
             </div>
 
-
-
+            <div className="voice-output" onClick={() => SpeechRecognition.startListening({ continuous: false, language: "en-US" })}>
+              {query ? (
+                <p>{query}</p>
+              ) : (
+                <p className="placeholder">Want the forecast? Tap the mic and ask!</p>
+              )}
+            </div>
+            {/* <button type="submit" disabled={isLoading}>
+              {isLoading ? "Analyzing..." : "Get Weather"}
+            </button> */}
           </form>
 
-          {isLoading && <div className="loading">Consulting weather experts...</div>}
+          {isLoading && <div className="loading">Getting weather insights...</div>}
 
           {error && <div className="error">⚠️ {error}</div>}
 
