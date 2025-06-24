@@ -3,7 +3,7 @@ import './App.css'
 import { getLocation, getWeather } from './api'
 import Loading from './components/Loading'
 import { SearchBar } from './components/SearchBar/SearchBar'
-import { debounce, set } from 'lodash';
+import { debounce} from 'lodash';
 import Greeting from './components/Greeting/Greeting'
 import WeatherData from './components/WeatherData/WeatherData'
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,7 +15,6 @@ import chatbot from './assets/chatbot.png'
 
 function App() {
   const [weatherData, setWeatherData] = useState()
-  const [location, setLocation] = useState('')
   const [searchInput, setSearchInput] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
@@ -32,7 +31,7 @@ function App() {
         setWeatherData(data);
         setLoading(false);
         toast.info("Weather data updated successfully!");
-        console.log("Weather data:", data);
+        // console.log("Weather data:", data);
       })
       .catch((error) => {
         setLoading(false);
@@ -89,7 +88,7 @@ function App() {
       toast.info("Weather data updated successfully!");
       setSearchInput('');
       setSuggestions([]);
-      console.log('Weather data for', term, ':', data);
+      // console.log('Weather data for', term, ':', data);
     })
     .catch((error) => {
       console.error('Error fetching weather data:', error);
@@ -105,7 +104,7 @@ const handleSuggestionSelectAndSearch = (description) => {
       toast.info("Weather data updated successfully!");
       setSearchInput('');
       setSuggestions([]);
-      console.log('Weather data for', description, ':', data);
+      // console.log('Weather data for', description, ':', data);
     })
     .catch((error) => {
       console.error('Error fetching weather data:', error);
