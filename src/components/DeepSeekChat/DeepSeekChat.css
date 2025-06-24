@@ -35,12 +35,14 @@
 .weather-app h1 {
   color: var(--color-primary);
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   font-weight: normal;
 }
 
 .weather-search-form {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -58,7 +60,6 @@
   color: var(--text-light);
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 0.8rem;
   cursor: pointer;
   font-weight: bold;
 }
@@ -106,8 +107,8 @@
 }
 
 .mic-button {
-  width: 48px;
-  height: 48px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   background-color: var(--color-accent);
   color: white;
@@ -177,3 +178,4 @@
   visibility: visible;
   opacity: 1;
 }
+
