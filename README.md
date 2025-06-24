@@ -7,9 +7,16 @@
 
 [Live Site](https://sky-pulse-roan.vercel.app/) • [Repository](https://github.com/harini-udeshika/weather-report)
 
-SkyPulse is a sleek, responsive weather web app that delivers real-time weather updates, an hourly forecast, and a voice-powered weather assistant. Built with modern frontend technologies and designed with a focus on user experience, SkyPulse makes checking the weather a delight — whether you're on desktop or mobile.
+SkyPulse is a sleek, responsive weather web app that delivers real-time weather updates, an hourly forecast, and a voice-powered weather assistant. Built with modern frontend technologies and designed with a focus on user experience, SkyPulse makes checking the weather a delight, whether you're on desktop or mobile.
 
 ---
+
+## High-level System Architecture
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0f9b9f04-c9d0-4083-8567-0cb31ccf237b" alt="high-levelsystem-architecture" width="800"/>
+</p>
+
 
 ## ✨ Features
 
@@ -17,7 +24,7 @@ SkyPulse is a sleek, responsive weather web app that delivers real-time weather 
   Uses **[ipapi.co](https://ipapi.co/)** to automatically fetch your approximate location and show current weather data.
 
 - 🔍 **Smart Search with Suggestions**  
-  Type any location to get current weather and same-day hourly forecast. Integrated with **Google Places API** for real-time search suggestions.
+  Type any location to get the current weather and a same-day hourly forecast. Integrated with **Google Places API** for real-time search suggestions.
   
   <img src="screenshots/search-suggestions.jpg" alt="search" width=35%/>
 
