@@ -89,8 +89,10 @@ function App() {
   const handleSearch = async (query, event) => {
     if (event) event.preventDefault();
 
-    const term = query || searchInput || (suggestions[0]?.description ?? '');
-    if (!term) return;
+    let term = query || searchInput || (suggestions[0]?.description ?? '');
+    if (term && suggestions.length > 0) {
+      term = suggestions[0].description;
+    }
 
     getWeather(term)
       .then((data) => {
