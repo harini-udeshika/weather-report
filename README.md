@@ -32,8 +32,8 @@ SkyPulse is a sleek, responsive weather web app that delivers real-time weather 
   Using **react-speech-recognition**, SkyPulse allows users to speak their desired location. A custom **MCP (Model Context Protocol)** developed with **DeepSeek** processes the spoken input, fetches weather data, and sends it back to DeepSeek to generate natural language weather insights.
 
 <p align="left">
-<img src="screenshots/weather-assistant-2.jpg" alt="assistant" width=45%/>
-<img src="screenshots/weather-assistant.jpg" alt="assistant" width=25%/>
+<img src="screenshots/weather-assistant-2.jpg" alt="assistant" width=43%/>
+<img src="screenshots/weather-assistant.jpg" alt="assistant" width=35%/>
 
 </p>
 
